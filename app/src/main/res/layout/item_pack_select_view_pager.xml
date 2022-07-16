@@ -34,6 +34,7 @@
             android:layout_marginVertical="@dimen/item_pack_select_pack_margin_vertical"
             android:layout_marginHorizontal="@dimen/item_pack_select_pack_margin_horizontal"
             app:cardCornerRadius="20dp"
+            app:cardElevation="0dp"
             app:backgroundColor="@{pack.color}"
             app:cardAlpha="@{pack.unlocked}"
             android:id="@+id/item_pack_select_view_pager_cv">

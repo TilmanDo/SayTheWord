@@ -56,6 +56,7 @@
             android:layout_margin="@dimen/fragment_pack_select_next_button_margin"
             app:layout_constraintBottom_toBottomOf="parent"
             app:cardBackgroundColor="@color/background"
+            app:cardElevation="0dp"
             app:strokeWidth="2dp"
             app:strokeColor="@color/colorMain"
             app:cardCornerRadius="10dp"

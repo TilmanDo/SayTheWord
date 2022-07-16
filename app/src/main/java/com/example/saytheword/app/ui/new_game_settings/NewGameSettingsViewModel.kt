@@ -14,17 +14,6 @@ class NewGameSettingsViewModel: ViewModel() {
 
     }
 
-    fun onRoundLengthPressed(){
-
-        newGameSettingsNavOptionSelected.value = NewGameSettingsNavOptions.ROUND_LENGTH
-
-    }
-
-    fun onGameLengthPressed(){
-
-        newGameSettingsNavOptionSelected.value = NewGameSettingsNavOptions.GAME_LENGTH
-
-    }
 
     fun onStartGamePressed(){
 

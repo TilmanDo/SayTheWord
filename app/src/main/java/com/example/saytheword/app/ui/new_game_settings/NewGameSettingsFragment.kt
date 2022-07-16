@@ -37,6 +37,8 @@ class NewGameSettingsFragment: Fragment() {
 
         observeViewModel()
 
+        setUpNumberPickers()
+
         super.onViewCreated(view, savedInstanceState)
     }
 
@@ -52,15 +54,40 @@ class NewGameSettingsFragment: Fragment() {
 
     }
 
+    private fun setUpNumberPickers(){
+
+
+        //Round Length
+
+        val roundLengthNp = binding.fragmentNewGameSettingsRoundLengthNp
+
+        val data = arrayOf("60s", "90s", "120s", "180s")
+
+        roundLengthNp.minValue = 1
+        roundLengthNp.maxValue = data.size
+        roundLengthNp.displayedValues = data
+        roundLengthNp.value = 1
+
+
+        //Points to win
+
+        val pointsToWinNP = binding.fragmentNewGameSettingsPointsToWinNp
+
+        pointsToWinNP.minValue = 3
+        pointsToWinNP.maxValue = 15
+        pointsToWinNP.value = 5
+
+    }
+
     private fun navigate(navOption: NewGameSettingsNavOptions){
 
         val activity: MainActivity = requireActivity() as MainActivity
 
         when(navOption){
             NewGameSettingsNavOptions.BACK -> activity.viewModel.navigateBackwards()
-            NewGameSettingsNavOptions.ROUND_LENGTH -> TODO()
-            NewGameSettingsNavOptions.GAME_LENGTH -> TODO()
-            NewGameSettingsNavOptions.START_GAME -> TODO()
+            NewGameSettingsNavOptions.START_GAME -> {
+
+            }
         }
 
     }
