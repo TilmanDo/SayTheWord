@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="text_sizes_splash_logo">50sp</dimen>
+    <dimen name="home_buttons_margin_horizontal">40dp</dimen>
+    <dimen name="home_play_button_margin_vertical">80dp</dimen>
+    <dimen name="fragment_home_play_text_size">30sp</dimen>
+    <dimen name="fragment_home_play_button_height">120dp</dimen>
+    <dimen name="fragment_home_buttons_corner_radius">10dp</dimen>
+    <dimen name="home_small_buttons_margin_vertical">60dp</dimen>
+    <dimen name="home_small_buttons_margin_horizontal">70dp</dimen>
+    <dimen name="fragment_home_small_button_text_size">25sp</dimen>
+    <dimen name="fragment_home_credit_text_size">15sp</dimen>
+    <dimen name="fragment_home_credit_margin_bottom">15dp</dimen>
+    <dimen name="fragment_pack_select_new_game_margin_top">40dp</dimen>
+    <dimen name="fragment_pack_select_new_game_text_size">30sp</dimen>
+    <dimen name="fragment_pack_select_next_button_height">60dp</dimen>
+    <dimen name="fragment_pack_select_next_button_margin">60dp</dimen>
+    <dimen name="fragment_pack_select_view_pager_margin_vertical">70dp</dimen>
+    <dimen name="item_pack_select_pack_margin_vertical">60dp</dimen>
+    <dimen name="item_pack_select_pack_margin_horizontal">0dp</dimen>
+
+</resources>

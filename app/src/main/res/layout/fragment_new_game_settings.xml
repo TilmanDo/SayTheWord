@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <data>
+
+        <variable
+            name="fragment"
+            type="com.example.saytheword.app.ui.new_game_settings.NewGameSettingsFragment" />
+
+        <variable
+            name="viewmodel"
+            type="com.example.saytheword.app.ui.new_game_settings.NewGameSettingsViewModel" />
+
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/fragment_new_game_settings_new_game_tv"
+            app:layout_constraintBottom_toBottomOf="@id/fragment_new_game_settings_new_game_tv"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginLeft="40dp"
+            android:src="@drawable/ic_arrow_back_white"
+            android:alpha="0.87"
+            android:id="@+id/fragment_new_game_settings_back_button"
+            android:onClick="@{() -> viewmodel.onBackArrowPressed()}"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginTop="@dimen/fragment_pack_select_new_game_margin_top"
+            android:fontFamily="@font/resolve"
+            android:textColor="@color/white"
+            android:alpha="0.87"
+            android:textSize="@dimen/fragment_pack_select_new_game_text_size"
+            android:text="@string/fragment_pack_select_new_game"
+            android:id="@+id/fragment_new_game_settings_new_game_tv"/>
+
+
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/fragment_pack_select_next_button_height"
+            android:layout_margin="@dimen/fragment_pack_select_next_button_margin"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:cardBackgroundColor="@color/background"
+            app:strokeWidth="2dp"
+            app:strokeColor="@color/colorMain"
+            app:cardCornerRadius="10dp"
+            android:onClick="@{()-> viewmodel.onStartGamePressed()}"
+            android:id="@+id/fragment_new_game_settings_start_game_button_cv">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/resolve"
+                android:textColor="@color/colorMain"
+                android:textSize="25sp"
+                android:text="@string/fragment_new_game_settings_start_game_button"
+                android:id="@+id/fragment_new_game_settings_start_game_button_tv"/>
+
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/fragment_new_game_settings_start_game_button_cv"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+
+
+            <View
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:background="@drawable/new_game_setup_page_indicator_unselected"/>
+
+            <View
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:background="@drawable/new_game_setup_page_indicator_selected"
+                android:layout_marginLeft="10dp"/>
+
+
+        </LinearLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</layout>

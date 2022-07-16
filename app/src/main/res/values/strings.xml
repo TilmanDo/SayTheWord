@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">SayTheWord</string>
+    <string name="activity_splash_logo">SayTheWord</string>
+    <string name="fragment_home_play_button_text">PLAY</string>
+    <string name="fragment_home_shop_button_text">SHOP</string>
+    <string name="fragment_home_logo_placeholder">[INSERT LOGO]</string>
+    <string name="fragment_home_manual_button_text">MANUAL</string>
+    <string name="mischak_copyright">Mischak © 2022</string>
+    <string name="fragment_pack_select_new_game">New Game</string>
+    <string name="fragment_pack_select_pick_prompt">Pick a pack:</string>
+    <string name="fragment_new_game_settings_start_game_button">START GAME</string>
+    <string name="fragment_pack_select_next_button">NEXT</string>
+</resources>
