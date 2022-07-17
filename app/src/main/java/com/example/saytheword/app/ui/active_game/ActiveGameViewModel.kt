@@ -23,6 +23,11 @@ class ActiveGameViewModel: ViewModel() {
     val gameState = MutableLiveData<GameState>(GameState.COUNTDOWN)
 
 
+    /**
+     * Starts a new game by initiating the first state (Countdown).
+     *
+     * @param game The instance of the new game - containing the settings which the user has picked prior to starting a new game.
+     */
     fun startGame(game: Game) {
 
         this.game.value = game
@@ -31,7 +36,14 @@ class ActiveGameViewModel: ViewModel() {
 
     }
 
-    fun beginCountDownState(){
+    /**
+     * STATE 1: Countdown.
+     *
+     * Starts a three second timer and updates the [gameCountDownState] which is observed by the fragment.
+     * Upon finishing the timer, updates the [gameState] which is observed by the fragment and begins the next state.
+     *
+     */
+    private fun beginCountDownState(){
 
         object : CountDownTimer(3000, 1000){
 
@@ -50,6 +62,14 @@ class ActiveGameViewModel: ViewModel() {
 
     }
 
+    /**
+     * STATE 2: WORD
+     *
+     * Starts a timer with a the round length selected by the user in the settings and updates the {wordTimerState] which is
+     * observed by the fragment.
+     * Upon finishing the timer, updates the [gameState] which is observed by the fragment and begins the next state.
+     *
+     */
     fun beginWordState(){
 
         object : CountDownTimer((game.value!!.gameRound.roundLength * 1000).toLong(), 1000){

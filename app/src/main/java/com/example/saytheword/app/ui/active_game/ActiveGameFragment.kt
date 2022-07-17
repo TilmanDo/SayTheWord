@@ -49,8 +49,13 @@ class ActiveGameFragment: Fragment() {
     }
 
     /**
+     *
+     * Sets up the ViewPager & begins observing the viewModel for updates in the game.
+     *
      * If the viewModels game is not running we take the setUp Values from the activity's viewModel, otherwise we use the active
      * one.
+     *
+     *
      *
      * @param view
      * @param savedInstanceState
@@ -78,6 +83,11 @@ class ActiveGameFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
     }
 
+    /**
+     * Delegates updates in the game to the corresponding functions.
+     * Includes the game object itself, the game state, the state of the countdown timer, and the state of the word timer.
+     *
+     */
     private fun observeViewModel(){
 
         val onActiveGameNavOptionSelectedObserver = Observer<ActiveGameNavOptions>{
@@ -122,6 +132,11 @@ class ActiveGameFragment: Fragment() {
 
     }
 
+    /**
+     * Updates the fragment's instance of the current game object and the binding variable [Not sure if the latter is necessary]
+     *
+     * @param game The updated game instance
+     */
     private fun updateGame(game: Game){
 
         this.game = game
@@ -129,6 +144,13 @@ class ActiveGameFragment: Fragment() {
 
     }
 
+    /**
+     * Tells the ViewPager adapter that the state of the game has changed.
+     *
+     * Also updates the timer to match the new state.
+     *
+     * @param state
+     */
     private fun updateGameState(state: GameState){
 
         adapter.updateGameState(state, game.gameRound.roundNumber)
@@ -142,18 +164,33 @@ class ActiveGameFragment: Fragment() {
 
     }
 
+    /**
+     * Tells the adapter that the countdown has advanced.
+     * Only called during the countdown state.
+     *
+     * @param timer The updated value of the countdown timer.
+     */
     private fun updateCountDownState(timer: Int){
 
         adapter.updateCountDownTimer(timer, game.gameRound.roundNumber)
 
     }
 
+    /**
+     * Tells the adapter that the word timer has advanced.
+     * Only called during the word state.
+     *
+     * @param timer The updated value of the word timer.
+     */
     private fun updateWordTimerState(timer: Int){
 
         binding.fragmentActiveGameWordTimerTv.text = "${timer}s"
 
     }
 
+    /**
+     * Creates and sets the ViewPager's adapter and does all the necessary visual adjustments.
+     */
     private fun setUpViewPager(){
 
         val viewPager = binding.fragmentActiveGameCardVp
@@ -179,12 +216,6 @@ class ActiveGameFragment: Fragment() {
             this.setPageTransformer(MarginPageTransformer(20.toPx()))
 
         }
-
-        Log.d("VP", viewPager.adapter.toString())
-
-
-
-
 
     }
 
