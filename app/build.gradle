@@ -53,6 +53,8 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
     //Number Picker
-
     implementation 'io.github.ShawnLin013:number-picker:2.4.13'
+
+    //Countdown Button
+    implementation 'com.dt:timerbutton:0.1'
 }

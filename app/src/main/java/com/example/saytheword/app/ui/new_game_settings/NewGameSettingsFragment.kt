@@ -18,6 +18,8 @@ class NewGameSettingsFragment: Fragment() {
 
     val viewModel: NewGameSettingsViewModel by viewModels()
 
+    val roundLengthData = arrayOf("60s", "90s", "120s", "180s")
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -61,12 +63,12 @@ class NewGameSettingsFragment: Fragment() {
 
         val roundLengthNp = binding.fragmentNewGameSettingsRoundLengthNp
 
-        val data = arrayOf("60s", "90s", "120s", "180s")
+
 
         roundLengthNp.minValue = 1
-        roundLengthNp.maxValue = data.size
-        roundLengthNp.displayedValues = data
-        roundLengthNp.value = 1
+        roundLengthNp.maxValue = roundLengthData.size
+        roundLengthNp.displayedValues = roundLengthData
+        roundLengthNp.value = 2
 
 
         //Points to win
@@ -87,8 +89,29 @@ class NewGameSettingsFragment: Fragment() {
             NewGameSettingsNavOptions.BACK -> activity.viewModel.navigateBackwards()
             NewGameSettingsNavOptions.START_GAME -> {
 
+                activity.viewModel.setActiveGameRoundLength(getCurrentRoundLength())
+                activity.viewModel.setActiveGamePointsToWin(getCurrentPointsToWin())
+
+                activity.viewModel.navigateForwards(R.id.activeGameFragment)
+
             }
         }
+
+    }
+
+    private fun getCurrentRoundLength(): Int{
+
+        val np = binding.fragmentNewGameSettingsRoundLengthNp
+
+        val valueString = roundLengthData[np.value]
+
+        return  valueString.dropLast(1).toInt()
+
+    }
+
+    private fun getCurrentPointsToWin(): Int {
+
+        return binding.fragmentNewGameSettingsPointsToWinNp.value
 
     }
 

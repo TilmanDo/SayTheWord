@@ -7,9 +7,35 @@ import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import com.example.saytheword.R
 import com.example.saytheword.app.util.NavigationUtil
+import com.example.saytheword.data.sample_data.SamplePackData
+import com.example.saytheword.domain.models.Pack
+import com.example.saytheword.domain.models.game.Game
 
 class MainActivityViewModel : ViewModel() {
 
+    //Game Handling
+    val activeGame = Game.createNewGame(SamplePackData.packs[0], 120, 5)
+
+    fun setActiveGamePack(pack: Pack){
+
+        activeGame.pack = pack
+
+    }
+
+    fun setActiveGameRoundLength(roundLength: Int){
+
+        activeGame.gameRound.roundLength = roundLength
+
+    }
+
+    fun setActiveGamePointsToWin(pointsToWin: Int){
+
+        activeGame.pointsToWin = pointsToWin
+
+    }
+
+
+    //Navigation Handling
 
     private val backStack = ArrayDeque<Int>(mutableListOf(R.id.homeFragment))
 

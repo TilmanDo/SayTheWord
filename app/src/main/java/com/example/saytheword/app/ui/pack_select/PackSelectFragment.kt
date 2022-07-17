@@ -153,7 +153,13 @@ class PackSelectFragment: Fragment() {
         val activity: MainActivity = requireActivity() as MainActivity
 
         when(navOption){
-            PackSelectNavOptions.NEXT -> activity.viewModel.navigateForwards(R.id.newGameSettingsFragment)
+            PackSelectNavOptions.NEXT -> {
+
+                activity.viewModel.setActiveGamePack(viewModel.currentlySelectedPack)
+
+                activity.viewModel.navigateForwards(R.id.newGameSettingsFragment)
+
+            }
             PackSelectNavOptions.BACK -> activity.viewModel.navigateBackwards()
         }
 

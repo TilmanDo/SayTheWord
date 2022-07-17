@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="fragment"
+            type="com.example.saytheword.app.ui.active_game.ActiveGameFragment" />
+
+        <variable
+            name="viewmodel"
+            type="com.example.saytheword.app.ui.active_game.ActiveGameViewModel" />
+
+        <variable
+            name="game"
+            type="com.example.saytheword.domain.models.game.Game" />
+
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background">
+
+
+        <com.dhruv.timerbutton.TimerButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="40dp"
+            android:layout_marginHorizontal="50dp"
+            app:animationCompleteText="Time's up!"
+            app:defaultText="Get ready!"
+            app:buttonBackground="@drawable/active_game_countdown_background_selector"
+            app:textColor="@color/white"
+            app:textSize="20sp"
+            app:animationBackground="@color/colorMain"
+            android:id="@+id/fragment_active_game_countdown_timer"
+            android:clickable="false"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/fragment_active_game_countdown_timer"
+            app:layout_constraintBottom_toBottomOf="@id/fragment_active_game_countdown_timer"
+            app:layout_constraintLeft_toLeftOf="@id/fragment_active_game_countdown_timer"
+            app:layout_constraintRight_toRightOf="@id/fragment_active_game_countdown_timer"
+            android:fontFamily="@font/resolve"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:text="@{String.valueOf(game.gameRound.roundTimer)}"
+            app:wordVisibility="@{game.state}"
+            />
+
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/fragment_active_game_score_bar_divider"
+            app:layout_constraintTop_toBottomOf="@id/fragment_active_game_countdown_timer"
+            android:layout_marginVertical="40dp"
+            android:id="@+id/fragment_active_game_card_vp"/>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="90dp"
+            android:background="@color/white"
+            android:alpha="0.3"
+            android:id="@+id/fragment_active_game_score_bar_divider"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:orientation="horizontal">
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5">
+
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/fragment_active_game_score_margin"
+                    app:cardElevation="0dp"
+                    app:cardBackgroundColor="@color/colorMain"
+                    app:cardCornerRadius="10dp"
+                    android:id="@+id/fragment_active_game_score_red_cv">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/resolve"
+                        android:textSize="@dimen/fragment_active_game_score_text_size"
+                        android:textColor="@color/background"
+                        android:text="@{String.valueOf(game.score.scoreRed), default = 0}"
+                        android:id="@+id/fragment_active_game_score_red_tv"/>
+
+
+                </com.google.android.material.card.MaterialCardView>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5">
+
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/fragment_active_game_score_margin"
+                    app:cardElevation="0dp"
+                    app:cardBackgroundColor="@color/colorAccent"
+                    app:cardCornerRadius="10dp"
+                    android:id="@+id/fragment_active_game_score_blue_cv">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/resolve"
+                        android:textSize="@dimen/fragment_active_game_score_text_size"
+                        android:textColor="@color/background"
+                        android:text="@{String.valueOf(game.score.scoreBlue), default = 0}"
+                        android:id="@+id/fragment_active_game_score_blue_tv"/>
+
+
+                </com.google.android.material.card.MaterialCardView>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</layout>

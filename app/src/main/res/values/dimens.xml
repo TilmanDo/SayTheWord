@@ -18,5 +18,7 @@
     <dimen name="fragment_pack_select_view_pager_margin_vertical">70dp</dimen>
     <dimen name="item_pack_select_pack_margin_vertical">60dp</dimen>
     <dimen name="item_pack_select_pack_margin_horizontal">0dp</dimen>
+    <dimen name="fragment_active_game_score_margin">20dp</dimen>
+    <dimen name="fragment_active_game_score_text_size">30sp</dimen>
 
 </resources>

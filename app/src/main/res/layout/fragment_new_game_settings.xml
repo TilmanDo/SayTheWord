@@ -74,6 +74,7 @@
             app:np_selectedTextColor="@color/colorMain"
             app:np_dividerColor="@color/colorMain"
             app:np_dividerDistance="60dp"
+            app:np_itemSpacing="20dp"
             android:layout_marginVertical="20dp"
             android:id="@+id/fragment_new_game_settings_round_length_np"/>
 

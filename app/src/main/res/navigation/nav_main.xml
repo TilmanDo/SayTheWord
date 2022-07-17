@@ -52,5 +52,16 @@
         <action
             android:id="@+id/action_newGameSettingsFragment_to_packSelectFragment"
             app:destination="@id/packSelectFragment" />
+        <action
+            android:id="@+id/action_newGameSettingsFragment_to_activeGameFragment"
+            app:destination="@id/activeGameFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/activeGameFragment"
+        android:name="com.example.saytheword.app.ui.active_game.ActiveGameFragment"
+        android:label="ActiveGameFragment" >
+        <action
+            android:id="@+id/action_activeGameFragment_to_newGameSettingsFragment"
+            app:destination="@id/newGameSettingsFragment" />
     </fragment>
 </navigation>
