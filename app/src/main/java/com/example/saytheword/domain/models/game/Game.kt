@@ -8,7 +8,7 @@ import com.example.saytheword.R
 import com.example.saytheword.domain.models.Pack
 import com.google.android.material.card.MaterialCardView
 
-data class Game(var pack: Pack, val gameRound: GameRound, var state: GameState, var pointsToWin: Int, val score: GameScore, var isActive: Boolean){
+data class Game(var pack: Pack, val gameRound: GameRound, var state: GameState, var pointsToWin: Int, var score: GameScore, var isActive: Boolean){
 
 
     companion object{

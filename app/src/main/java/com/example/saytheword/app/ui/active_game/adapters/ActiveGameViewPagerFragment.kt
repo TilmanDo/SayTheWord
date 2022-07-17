@@ -1,11 +1,14 @@
 package com.example.saytheword.app.ui.active_game.adapters
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.MutableLiveData
 import com.example.saytheword.R
 import com.example.saytheword.databinding.ItemActiveGameCardViewPagerBinding
 import com.example.saytheword.domain.models.Card
@@ -21,6 +24,10 @@ class ActiveGameViewPagerFragment: Fragment() {
     lateinit var state: GameState
 
     lateinit var binding: ItemActiveGameCardViewPagerBinding
+
+    val onWordSaidPressed = MutableLiveData<Boolean>()
+    val onWordGuessedPressed = MutableLiveData<Boolean>()
+    val onNextRoundButtonPressed = MutableLiveData<Boolean>()
 
     var countdownTimer = 3
 
@@ -52,6 +59,8 @@ class ActiveGameViewPagerFragment: Fragment() {
     ): View? {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.item_active_game_card_view_pager, container, false)
+
+        binding.fragment = this
 
         binding.lifecycleOwner = this
 
@@ -93,6 +102,47 @@ class ActiveGameViewPagerFragment: Fragment() {
 
         this.countdownTimer = timer
         binding.countdown = this.countdownTimer
+
+    }
+
+    fun updateCardResultInputState(button: Int, selected: Boolean){
+
+        Log.d("Results", "Result Input Change received in VP Frag")
+
+        val cardView = if(button == 0) binding.itemActiveGameCardViewPagerResultWordSaidCv else binding.itemActiveGameCardViewPagerResultWordGuessedCv
+        val textView = if(button == 0) binding.itemActiveGameCardViewPagerResultWordSaidTv else binding.itemActiveGameCardViewPagerResultWordGuessedTv
+
+        val color = if(turn == GameTurn.RED) R.color.colorMain else R.color.colorAccent
+
+        if(selected){
+
+            cardView.setCardBackgroundColor(ContextCompat.getColor(cardView.context, R.color.white))
+            textView.setTextColor(ContextCompat.getColor(textView.context, color))
+
+        } else {
+
+            cardView.setCardBackgroundColor(ContextCompat.getColor(cardView.context, R.color.transparent))
+            textView.setTextColor(ContextCompat.getColor(textView.context, R.color.white))
+
+        }
+
+    }
+
+    fun onWordSaidPressed(){
+
+        onWordSaidPressed.value = true
+
+    }
+
+    fun onWordGuessedPressed(){
+
+        onWordGuessedPressed.value = true
+
+    }
+
+    fun onNextRoundButtonPressed(){
+
+        onNextRoundButtonPressed.value = true
 
     }
 

@@ -55,6 +55,6 @@ dependencies {
     //Number Picker
     implementation 'io.github.ShawnLin013:number-picker:2.4.13'
 
-    //Countdown Button
-    implementation 'com.dt:timerbutton:0.1'
+    //Flip View
+    implementation 'com.wajahatkarim:EasyFlipView:3.0.3'
 }

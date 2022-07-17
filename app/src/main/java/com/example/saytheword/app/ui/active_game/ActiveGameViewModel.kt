@@ -1,10 +1,12 @@
 package com.example.saytheword.app.ui.active_game
 
 import android.os.CountDownTimer
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.saytheword.data.sample_data.SamplePackData
 import com.example.saytheword.domain.models.game.Game
+import com.example.saytheword.domain.models.game.GameScore
 import com.example.saytheword.domain.models.game.GameState
 import kotlinx.coroutines.*
 
@@ -14,13 +16,21 @@ class ActiveGameViewModel: ViewModel() {
 
     val activeGameNavOptionSelected = MutableLiveData<ActiveGameNavOptions>()
 
-    val game = MutableLiveData<Game>(Game.createNewGame(SamplePackData.packs[0], 120, 5))
+    val game = MutableLiveData<Game>(Game.createNewGame(SamplePackData.packs[0], 10, 5))
 
     val gameCountDownState = MutableLiveData<Int>()
 
     val wordTimerState = MutableLiveData<Int>()
 
     val gameState = MutableLiveData<GameState>(GameState.COUNTDOWN)
+
+    val resultInputState = MutableLiveData<Pair<Int, Boolean>>()
+
+    val roundChange = MutableLiveData<Boolean>()
+
+    var wordSaid = false
+
+    var wordGuessed = false
 
 
     /**
@@ -95,12 +105,69 @@ class ActiveGameViewModel: ViewModel() {
 
     }
 
+    fun onWordSaidPressed(){
+
+        Log.d("Results", "Word Said Pressed (VM)")
+
+        wordSaid = !wordSaid
+
+        resultInputState.value = Pair(0, wordSaid)
+
+    }
+
+    fun onWordGuessedPressed(){
+
+        Log.d("Results", "Word Guessed Pressed (VM)")
+
+        wordGuessed = !wordGuessed
+
+        resultInputState.value = Pair(1, wordGuessed)
+
+    }
+
     fun onNextRoundPressed(){
 
-        TODO("Handle Result Input")
+
+        //TODO Handle Score Logic
+        val newGameObject = game.value
+
+        val oldRoundNumber = newGameObject!!.gameRound.roundNumber
+        val newRoundNumber = oldRoundNumber + 1
+
+        val score = calculateScore(newGameObject.score, wordSaid, wordGuessed)
+
+        newGameObject.gameRound.roundNumber = newRoundNumber
+        newGameObject.score = score
+
+        game.value = newGameObject
+
+        roundChange.value = true
 
         gameState.value = GameState.COUNTDOWN
         beginCountDownState()
+
+    }
+
+    /**
+     * Calculates the new score based on whether the word was said/guessed.
+     *
+     * @param oldScore
+     * @param wordSaid
+     * @param wordGuessed
+     * @return
+     */
+    private fun calculateScore(oldScore: GameScore, wordSaid: Boolean, wordGuessed: Boolean): GameScore{
+
+        val oldScoreRed = oldScore.scoreRed
+        val oldScoreBlue = oldScore.scoreBlue
+
+        if((!wordSaid && !wordGuessed) || (wordSaid && wordGuessed)) return oldScore
+
+        if(wordSaid && !wordGuessed) return GameScore(oldScoreRed +1, oldScoreBlue)
+
+        if(!wordSaid && wordGuessed) return GameScore(oldScoreRed, oldScoreBlue + 1)
+
+        return oldScore
 
     }
 

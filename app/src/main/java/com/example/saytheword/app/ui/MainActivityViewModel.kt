@@ -11,7 +11,7 @@ import com.example.saytheword.domain.models.game.Game
 class MainActivityViewModel : ViewModel() {
 
     //Game Handling
-    val gameSetUp = Game.createNewGame(SamplePackData.packs[0], 120, 5)
+    val gameSetUp = Game.createNewGame(SamplePackData.packs[0], 10, 5)
 
     fun setGamePack(pack: Pack){
 

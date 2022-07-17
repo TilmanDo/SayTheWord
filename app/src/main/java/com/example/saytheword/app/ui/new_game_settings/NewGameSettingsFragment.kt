@@ -89,7 +89,10 @@ class NewGameSettingsFragment: Fragment() {
             NewGameSettingsNavOptions.BACK -> activity.viewModel.navigateBackwards()
             NewGameSettingsNavOptions.START_GAME -> {
 
-                activity.viewModel.setGameRoundLength(getCurrentRoundLength())
+                //TESTING
+                //activity.viewModel.setGameRoundLength(getCurrentRoundLength())
+                activity.viewModel.setGameRoundLength(10)
+
                 activity.viewModel.setGamePointsToWin(getCurrentPointsToWin())
 
                 activity.viewModel.navigateForwards(R.id.activeGameFragment)

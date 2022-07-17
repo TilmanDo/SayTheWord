@@ -1,13 +1,14 @@
 package com.example.saytheword.app.ui.active_game.adapters
 
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.example.saytheword.app.ui.active_game.ActiveGameFragment
 import com.example.saytheword.domain.models.Card
 import com.example.saytheword.domain.models.game.GameState
 import com.example.saytheword.domain.models.game.GameTurn
-import kotlin.math.round
 
-class ActiveGameViewPagerAdapter(val fragment: Fragment,val cards: ArrayList<Card>): FragmentStateAdapter(fragment) {
+class ActiveGameViewPagerAdapter(val fragment: ActiveGameFragment, val cards: ArrayList<Card>): FragmentStateAdapter(fragment) {
 
     val cardFragments = ArrayList<ActiveGameViewPagerFragment>()
 
@@ -21,11 +22,28 @@ class ActiveGameViewPagerAdapter(val fragment: Fragment,val cards: ArrayList<Car
 
         val turn = if(position % 2 == 0) 0 else 1
 
-        val fragment = ActiveGameViewPagerFragment.newInstance(cards[position], GameTurn.values()[turn], GameState.COUNTDOWN)
+        val cardFragment = ActiveGameViewPagerFragment.newInstance(cards[position], GameTurn.values()[turn], GameState.COUNTDOWN)
 
-        cardFragments.add(position, fragment)
+        cardFragments.add(position, cardFragment)
 
-        return fragment
+        //Observe Fragment for clicks
+        val onWordSaidPressedObserver = Observer<Boolean>{
+            fragment.onWordSaidPressed()
+        }
+
+        val onWordGuessedPressedObserver = Observer<Boolean>{
+            fragment.onWordGuessedPressed()
+        }
+
+        val onNextRoundPressedObserver = Observer<Boolean>{
+            fragment.onNextRoundButtonPressed()
+        }
+
+        cardFragment.onWordSaidPressed.observe(fragment.viewLifecycleOwner, onWordSaidPressedObserver)
+        cardFragment.onWordGuessedPressed.observe(fragment.viewLifecycleOwner, onWordGuessedPressedObserver)
+        cardFragment.onNextRoundButtonPressed.observe(fragment.viewLifecycleOwner, onNextRoundPressedObserver)
+
+        return cardFragment
 
     }
 
@@ -47,6 +65,17 @@ class ActiveGameViewPagerAdapter(val fragment: Fragment,val cards: ArrayList<Car
         if(cardFragments.size != 0) {
             getFragmentAtPosition(position).updateCountdownTimer(timer)
         }
+
+    }
+
+    fun updateCardResultInputState(button: Int, selected: Boolean, position: Int){
+
+        if(cardFragments.size != 0){
+
+            getFragmentAtPosition(position).updateCardResultInputState(button, selected)
+
+        }
+
 
     }
 

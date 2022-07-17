@@ -5,11 +5,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.viewpager2.widget.MarginPageTransformer
+import androidx.viewpager2.widget.ViewPager2
 import com.example.saytheword.R
 import com.example.saytheword.app.ui.MainActivity
 import com.example.saytheword.app.ui.active_game.adapters.ActiveGameViewPagerAdapter
@@ -18,6 +21,8 @@ import com.example.saytheword.data.sample_data.SamplePackData
 import com.example.saytheword.databinding.FragmentActiveGameBinding
 import com.example.saytheword.domain.models.game.Game
 import com.example.saytheword.domain.models.game.GameState
+import com.example.saytheword.domain.models.game.GameTurn
+import com.google.android.material.card.MaterialCardView
 
 class ActiveGameFragment: Fragment() {
 
@@ -26,6 +31,8 @@ class ActiveGameFragment: Fragment() {
     val viewModel: ActiveGameViewModel by viewModels()
 
     lateinit var activity: MainActivity
+
+    lateinit var viewPager: ViewPager2
 
     lateinit var adapter: ActiveGameViewPagerAdapter
 
@@ -77,6 +84,8 @@ class ActiveGameFragment: Fragment() {
 
         binding.game = game
 
+        updateGameState(game.state)
+
         Log.d("Cards", game.pack.cards.toString())
 
 
@@ -85,7 +94,9 @@ class ActiveGameFragment: Fragment() {
 
     /**
      * Delegates updates in the game to the corresponding functions.
-     * Includes the game object itself, the game state, the state of the countdown timer, and the state of the word timer.
+     *
+     * Includes the game object itself, the game state, the state of the countdown timer, the state of the word timer,
+     * and the event of selecting/deselecting a result input.
      *
      */
     private fun observeViewModel(){
@@ -129,6 +140,25 @@ class ActiveGameFragment: Fragment() {
         }
 
         viewModel.wordTimerState.observe(viewLifecycleOwner, onWordTimerStateUpdateObserver)
+
+        val onResultInputStateChangedObserver = Observer<Pair<Int, Boolean>>{
+
+            updateResultInputState(it.first, it.second)
+
+        }
+
+        viewModel.resultInputState.observe(viewLifecycleOwner, onResultInputStateChangedObserver)
+
+
+        val onRoundChangeObserver = Observer<Boolean>{
+
+            swipeToNextRound()
+
+        }
+
+        viewModel.roundChange.observe(viewLifecycleOwner, onRoundChangeObserver)
+
+
 
     }
 
@@ -193,7 +223,7 @@ class ActiveGameFragment: Fragment() {
      */
     private fun setUpViewPager(){
 
-        val viewPager = binding.fragmentActiveGameCardVp
+        viewPager = binding.fragmentActiveGameCardVp
 
         val vpAdapter = ActiveGameViewPagerAdapter(this, game.pack.cards)
 
@@ -216,6 +246,49 @@ class ActiveGameFragment: Fragment() {
             this.setPageTransformer(MarginPageTransformer(20.toPx()))
 
         }
+
+    }
+
+    private fun updateResultInputState(button: Int, selected: Boolean){
+
+        adapter.updateCardResultInputState(button, selected, game.gameRound.roundNumber)
+
+    }
+
+    /**
+     * Intercepts clicks on the individual card's word-said button (because it doesn't have a reference to the viewmodel)
+     * and forwards it accordingly.
+     */
+    fun onWordSaidPressed(){
+
+        viewModel.onWordSaidPressed()
+
+    }
+
+    /**
+     * Intercepts clicks on the individual card's word-guessed button (because it doesn't have a reference to the viewmodel)
+     * and forwards it accordingly.
+     */
+    fun onWordGuessedPressed(){
+
+        viewModel.onWordGuessedPressed()
+
+    }
+
+
+    /**
+     * Intercepts clicks on the individual card's next-round button (because it doesn't have a reference to the viewmodel)
+     * and forwards it accordingly.
+     */
+    fun onNextRoundButtonPressed(){
+
+        viewModel.onNextRoundPressed()
+
+    }
+
+    fun swipeToNextRound(){
+
+        viewPager.currentItem = viewPager.currentItem + 1
 
     }
 
