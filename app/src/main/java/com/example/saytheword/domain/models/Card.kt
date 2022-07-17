@@ -1,3 +1,7 @@
 package com.example.saytheword.domain.models
 
-data class Card(val word: String)
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
+data class Card(val word: String): Parcelable

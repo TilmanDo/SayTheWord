@@ -16,6 +16,7 @@
             name="game"
             type="com.example.saytheword.domain.models.game.Game" />
 
+
     </data>
 
 
@@ -25,41 +26,37 @@
         android:background="@color/background">
 
 
-        <com.dhruv.timerbutton.TimerButton
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="65dp"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="40dp"
-            android:layout_marginHorizontal="50dp"
-            app:animationCompleteText="Time's up!"
-            app:defaultText="Get ready!"
-            app:buttonBackground="@drawable/active_game_countdown_background_selector"
-            app:textColor="@color/white"
-            app:textSize="20sp"
-            app:animationBackground="@color/colorMain"
-            android:id="@+id/fragment_active_game_countdown_timer"
-            android:clickable="false"/>
+            android:layout_marginTop="50dp"
+            android:layout_marginHorizontal="60dp"
+            app:cardBackgroundColor="@color/background"
+            app:wordTimerStrokeColor="@{game.gameRound.turn}"
+            app:cardElevation="0dp"
+            app:strokeWidth="2dp"
+            app:cardCornerRadius="10dp"
+            android:id="@+id/fragment_active_game_word_timer_cv">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="@id/fragment_active_game_countdown_timer"
-            app:layout_constraintBottom_toBottomOf="@id/fragment_active_game_countdown_timer"
-            app:layout_constraintLeft_toLeftOf="@id/fragment_active_game_countdown_timer"
-            app:layout_constraintRight_toRightOf="@id/fragment_active_game_countdown_timer"
-            android:fontFamily="@font/resolve"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            android:text="@{String.valueOf(game.gameRound.roundTimer)}"
-            app:wordVisibility="@{game.state}"
-            />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textSize="25sp"
+                app:wordTimerTextColor="@{game.gameRound.turn}"
+                android:id="@+id/fragment_active_game_word_timer_tv"/>
+
+
+        </com.google.android.material.card.MaterialCardView>
 
 
         <androidx.viewpager2.widget.ViewPager2
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toTopOf="@id/fragment_active_game_score_bar_divider"
-            app:layout_constraintTop_toBottomOf="@id/fragment_active_game_countdown_timer"
+            app:layout_constraintTop_toBottomOf="@id/fragment_active_game_word_timer_cv"
             android:layout_marginVertical="40dp"
             android:id="@+id/fragment_active_game_card_vp"/>
 
