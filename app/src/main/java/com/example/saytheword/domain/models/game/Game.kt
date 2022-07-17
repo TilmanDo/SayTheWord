@@ -4,14 +4,14 @@ import android.view.View
 import androidx.databinding.BindingAdapter
 import com.example.saytheword.domain.models.Pack
 
-data class Game(var pack: Pack, val gameRound: GameRound, var state: GameState, var pointsToWin: Int, val score: GameScore){
+data class Game(var pack: Pack, val gameRound: GameRound, var state: GameState, var pointsToWin: Int, val score: GameScore, var isActive: Boolean){
 
 
     companion object{
 
         fun createNewGame(pack: Pack, roundLength: Int, pointsToWin: Int): Game{
 
-            return Game(pack, GameRound(1, roundLength, roundLength), GameState.COUNTDOWN, pointsToWin, GameScore(0, 0))
+            return Game(pack, GameRound(1, roundLength, roundLength), GameState.COUNTDOWN, pointsToWin, GameScore(0, 0), false)
 
         }
 

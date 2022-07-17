@@ -38,13 +38,24 @@ class ActiveGameFragment: Fragment() {
         return binding.root
     }
 
+    /**
+     * If the viewModels game is not running we take the setUp Values from the activity's viewModel, otherwise we use the active
+     * one.
+     *
+     * @param view
+     * @param savedInstanceState
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         activity = requireActivity() as MainActivity
 
-        game = activity.viewModel.activeGame
+        if(!viewModel.game.isActive) viewModel.game = activity.viewModel.gameSetUp
+
+        game = viewModel.game
 
         binding.game = game
+
+        setUpViewPager()
 
         observeViewModel()
 
@@ -60,6 +71,12 @@ class ActiveGameFragment: Fragment() {
         }
 
         viewModel.activeGameNavOptionSelected.observe(viewLifecycleOwner, onActiveGameNavOptionSelectedObserver)
+
+    }
+
+    private fun setUpViewPager(){
+
+        val vp = binding.fragmentActiveGameCardVp
 
     }
 

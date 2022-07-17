@@ -1,6 +1,5 @@
 package com.example.saytheword.app.ui.pack_select
 
-import android.content.res.Resources
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -155,7 +154,7 @@ class PackSelectFragment: Fragment() {
         when(navOption){
             PackSelectNavOptions.NEXT -> {
 
-                activity.viewModel.setActiveGamePack(viewModel.currentlySelectedPack)
+                activity.viewModel.setGamePack(viewModel.currentlySelectedPack)
 
                 activity.viewModel.navigateForwards(R.id.newGameSettingsFragment)
 

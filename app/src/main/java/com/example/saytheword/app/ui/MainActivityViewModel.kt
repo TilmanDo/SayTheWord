@@ -1,10 +1,7 @@
 package com.example.saytheword.app.ui
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.navigation.Navigation
-import androidx.navigation.ui.NavigationUI
 import com.example.saytheword.R
 import com.example.saytheword.app.util.NavigationUtil
 import com.example.saytheword.data.sample_data.SamplePackData
@@ -14,23 +11,23 @@ import com.example.saytheword.domain.models.game.Game
 class MainActivityViewModel : ViewModel() {
 
     //Game Handling
-    val activeGame = Game.createNewGame(SamplePackData.packs[0], 120, 5)
+    val gameSetUp = Game.createNewGame(SamplePackData.packs[0], 120, 5)
 
-    fun setActiveGamePack(pack: Pack){
+    fun setGamePack(pack: Pack){
 
-        activeGame.pack = pack
-
-    }
-
-    fun setActiveGameRoundLength(roundLength: Int){
-
-        activeGame.gameRound.roundLength = roundLength
+        gameSetUp.pack = pack
 
     }
 
-    fun setActiveGamePointsToWin(pointsToWin: Int){
+    fun setGameRoundLength(roundLength: Int){
 
-        activeGame.pointsToWin = pointsToWin
+        gameSetUp.gameRound.roundLength = roundLength
+
+    }
+
+    fun setGamePointsToWin(pointsToWin: Int){
+
+        gameSetUp.pointsToWin = pointsToWin
 
     }
 
