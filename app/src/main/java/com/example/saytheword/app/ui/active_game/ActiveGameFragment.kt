@@ -1,11 +1,13 @@
 package com.example.saytheword.app.ui.active_game
 
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import android.widget.ProgressBar
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -22,7 +24,7 @@ import com.example.saytheword.databinding.FragmentActiveGameBinding
 import com.example.saytheword.domain.models.game.Game
 import com.example.saytheword.domain.models.game.GameState
 import com.example.saytheword.domain.models.game.GameTurn
-import com.google.android.material.card.MaterialCardView
+import com.google.android.material.progressindicator.LinearProgressIndicator
 
 class ActiveGameFragment: Fragment() {
 
@@ -33,6 +35,8 @@ class ActiveGameFragment: Fragment() {
     lateinit var activity: MainActivity
 
     lateinit var viewPager: ViewPager2
+
+    lateinit var progressBar: LinearProgressIndicator
 
     lateinit var adapter: ActiveGameViewPagerAdapter
 
@@ -72,6 +76,8 @@ class ActiveGameFragment: Fragment() {
         activity = requireActivity() as MainActivity
 
         setUpViewPager()
+
+        setUpProgressBar()
 
         observeViewModel()
 
@@ -216,6 +222,10 @@ class ActiveGameFragment: Fragment() {
 
         binding.fragmentActiveGameWordTimerTv.text = "${timer}s"
 
+        progressBar.progress = game.gameRound.roundLength - timer + 1
+
+        Log.d("Progress", progressBar.progress.toString())
+
     }
 
     /**
@@ -246,6 +256,16 @@ class ActiveGameFragment: Fragment() {
             this.setPageTransformer(MarginPageTransformer(20.toPx()))
 
         }
+
+    }
+
+    private fun setUpProgressBar(){
+
+        progressBar = binding.fragmentActiveGameWordTimerProgressBar
+
+        val color = if(game.gameRound.turn == GameTurn.RED) R.color.colorMain else R.color.colorAccent
+
+        progressBar.setIndicatorColor(ContextCompat.getColor(progressBar.context, color))
 
     }
 
@@ -286,9 +306,28 @@ class ActiveGameFragment: Fragment() {
 
     }
 
-    fun swipeToNextRound(){
+    fun onPauseButtonPressed(){
+
+        viewModel.onPausePressed()
+
+    }
+
+    fun onQuitButtonPressed(){
+
+        viewModel.onQuitPressed()
+
+    }
+
+    private fun swipeToNextRound(){
 
         viewPager.currentItem = viewPager.currentItem + 1
+
+        val color = if(game.gameRound.turn == GameTurn.RED) R.color.colorMain else R.color.colorAccent
+
+        progressBar.setIndicatorColor(ContextCompat.getColor(progressBar.context, color))
+
+        progressBar.progress = 0
+
 
     }
 
@@ -298,6 +337,16 @@ class ActiveGameFragment: Fragment() {
         when(navOption){
             ActiveGameNavOptions.BACK -> TODO()
         }
+
+    }
+
+    //Set game status to !notActive when user navigates away from the game
+    //TODO(Intercept back action when this fragment is on top of the backstack and show confirmation dialog)
+    override fun onDestroyView() {
+
+        activity.viewModel.gameSetUp.isActive = false
+
+        super.onDestroyView()
 
     }
 

@@ -32,6 +32,8 @@ class ActiveGameViewModel: ViewModel() {
 
     var wordGuessed = false
 
+    var gamePaused = false
+
 
     /**
      * Starts a new game by initiating the first state (Countdown).
@@ -58,7 +60,7 @@ class ActiveGameViewModel: ViewModel() {
         object : CountDownTimer(3000, 1000){
 
             override fun onTick(p0: Long) {
-                gameCountDownState.postValue((p0/1000).toInt())
+                gameCountDownState.postValue((p0/1000 + 1).toInt())
             }
 
             override fun onFinish() {
@@ -85,7 +87,7 @@ class ActiveGameViewModel: ViewModel() {
         object : CountDownTimer((game.value!!.gameRound.roundLength * 1000).toLong(), 1000){
 
             override fun onTick(p0: Long) {
-                wordTimerState.postValue((p0/1000).toInt())
+                wordTimerState.postValue((p0/1000 + 1).toInt())
             }
 
             override fun onFinish() {
@@ -101,7 +103,7 @@ class ActiveGameViewModel: ViewModel() {
 
     fun beginResultState(){
 
-
+        //Maybe Flip Logic to come.
 
     }
 
@@ -125,21 +127,35 @@ class ActiveGameViewModel: ViewModel() {
 
     }
 
+    fun onPausePressed(){
+
+        //TODO(Implement pause functionality)
+
+        gamePaused = !gamePaused
+
+    }
+
+    fun onQuitPressed(){
+
+        //TODO(Implement quit functionality)
+
+    }
+
+    /**
+     * Updates the game object, including the new score and round number.
+     * Sets the state back to Countdown and calls [beginCountDownState] to initiate the new round.
+     * Also resets the result inputs.
+     *
+     */
     fun onNextRoundPressed(){
 
+        val oldGame = game.value!!
 
-        //TODO Handle Score Logic
-        val newGameObject = game.value
+        val score = calculateScore(oldGame.score, wordSaid, wordGuessed)
 
-        val oldRoundNumber = newGameObject!!.gameRound.roundNumber
-        val newRoundNumber = oldRoundNumber + 1
+        game.value = oldGame.updateToNextRound(score)
 
-        val score = calculateScore(newGameObject.score, wordSaid, wordGuessed)
-
-        newGameObject.gameRound.roundNumber = newRoundNumber
-        newGameObject.score = score
-
-        game.value = newGameObject
+        resetResultInputs()
 
         roundChange.value = true
 
@@ -168,6 +184,13 @@ class ActiveGameViewModel: ViewModel() {
         if(!wordSaid && wordGuessed) return GameScore(oldScoreRed, oldScoreBlue + 1)
 
         return oldScore
+
+    }
+
+    private fun resetResultInputs(){
+
+        wordSaid = false
+        wordGuessed = false
 
     }
 

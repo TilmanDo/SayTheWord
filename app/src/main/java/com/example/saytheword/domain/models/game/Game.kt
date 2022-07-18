@@ -11,6 +11,25 @@ import com.google.android.material.card.MaterialCardView
 data class Game(var pack: Pack, val gameRound: GameRound, var state: GameState, var pointsToWin: Int, var score: GameScore, var isActive: Boolean){
 
 
+    fun updateToNextRound(score: GameScore): Game {
+
+        val newGame = this
+
+        newGame.score = score
+
+        newGame.gameRound.roundNumber++
+
+        if(this.gameRound.turn == GameTurn.RED) {
+            newGame.gameRound.turn = GameTurn.BLUE
+        } else {
+            newGame.gameRound.turn = GameTurn.RED
+        }
+
+        return newGame
+
+    }
+
+
     companion object{
 
         fun createNewGame(pack: Pack, roundLength: Int, pointsToWin: Int): Game{

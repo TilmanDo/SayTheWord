@@ -28,16 +28,29 @@
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
-            android:layout_height="65dp"
+            android:layout_height="@dimen/fragment_active_game_timer_height"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="50dp"
             android:layout_marginHorizontal="60dp"
             app:cardBackgroundColor="@color/background"
-            app:wordTimerStrokeColor="@{game.gameRound.turn}"
             app:cardElevation="0dp"
-            app:strokeWidth="2dp"
-            app:cardCornerRadius="10dp"
+            app:strokeWidth="1dp"
+            app:strokeColor="@color/white"
+            app:cardCornerRadius="@dimen/fragment_active_game_timer_corner_radius"
             android:id="@+id/fragment_active_game_word_timer_cv">
+
+
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:min="0"
+                android:max="@{game.gameRound.roundLength}"
+                app:trackColor="@color/background"
+                app:trackCornerRadius="@dimen/fragment_active_game_timer_corner_radius"
+                app:trackThickness="@dimen/fragment_active_game_timer_height"
+                android:visibility="visible"
+                android:indeterminate="false"
+                android:id="@+id/fragment_active_game_word_timer_progress_bar"/>
 
 
             <TextView
@@ -45,7 +58,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:textSize="25sp"
-                app:wordTimerTextColor="@{game.gameRound.turn}"
+                android:textColor="@color/white"
+                android:alpha="0.87"
                 android:id="@+id/fragment_active_game_word_timer_tv"/>
 
 
@@ -57,8 +71,57 @@
             android:layout_height="0dp"
             app:layout_constraintBottom_toTopOf="@id/fragment_active_game_score_bar_divider"
             app:layout_constraintTop_toBottomOf="@id/fragment_active_game_word_timer_cv"
-            android:layout_marginVertical="40dp"
+            android:layout_marginVertical="@dimen/fragment_active_game_view_pager_margin_vertical"
             android:id="@+id/fragment_active_game_card_vp"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@id/fragment_active_game_card_vp"
+            app:layout_constraintBottom_toTopOf="@id/fragment_active_game_score_bar_divider">
+
+
+            <androidx.constraintlayout.widget.Guideline
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.5"
+                android:id="@+id/guideline"/>
+
+
+            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/guideline"
+                android:layout_marginRight="30dp"
+                app:icon="@drawable/ic_pause_white"
+                app:iconTint="@color/white"
+                app:elevation="5dp"
+                app:strokeWidth="2dp"
+                app:strokeColor="@color/white"
+                app:backgroundTint="@color/background"
+                android:id="@+id/fragment_active_pause_fab"/>
+
+            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/guideline"
+                android:layout_marginLeft="30dp"
+                app:icon="@drawable/ic_quit_white"
+                app:iconTint="@color/white"
+                app:elevation="5dp"
+                app:strokeWidth="2dp"
+                app:strokeColor="@color/white"
+                app:backgroundTint="@color/background"
+                android:id="@+id/fragment_active_quit_fab"/>
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
         <View
@@ -101,7 +164,7 @@
                         android:fontFamily="@font/resolve"
                         android:textSize="@dimen/fragment_active_game_score_text_size"
                         android:textColor="@color/background"
-                        android:text="@{String.valueOf(game.score.scoreRed), default = 0}"
+                        android:text="@{String.valueOf(game.score.scoreRed)}"
                         android:id="@+id/fragment_active_game_score_red_tv"/>
 
 
@@ -134,7 +197,7 @@
                         android:fontFamily="@font/resolve"
                         android:textSize="@dimen/fragment_active_game_score_text_size"
                         android:textColor="@color/background"
-                        android:text="@{String.valueOf(game.score.scoreBlue), default = 0}"
+                        android:text="@{String.valueOf(game.score.scoreBlue)}"
                         android:id="@+id/fragment_active_game_score_blue_tv"/>
 
 
