@@ -42,6 +42,8 @@ class ActiveGameViewModel: ViewModel() {
      */
     fun startGame(game: Game) {
 
+        game.pack.shuffleCards()
+
         this.game.value = game
 
         beginCountDownState()

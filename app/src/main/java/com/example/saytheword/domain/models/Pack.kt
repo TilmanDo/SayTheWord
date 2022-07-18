@@ -7,7 +7,19 @@ import androidx.databinding.BindingAdapter
 import com.example.saytheword.R
 import com.google.android.material.card.MaterialCardView
 
-data class Pack(val name: String, val cards: ArrayList<Card>, val color: Int, val unlocked: Boolean) {
+data class Pack(val name: String, var cards: ArrayList<Card>, val color: Int, val unlocked: Boolean) {
+
+
+    fun shuffleCards(){
+
+        val shuffledList = cards.toMutableList()
+
+        shuffledList.shuffle()
+
+        cards = shuffledList as ArrayList<Card>
+
+    }
+
 
     companion object{
 

@@ -91,7 +91,7 @@ class NewGameSettingsFragment: Fragment() {
 
                 //TESTING
                 //activity.viewModel.setGameRoundLength(getCurrentRoundLength())
-                activity.viewModel.setGameRoundLength(120)
+                activity.viewModel.setGameRoundLength(10)
 
                 activity.viewModel.setGamePointsToWin(getCurrentPointsToWin())
 

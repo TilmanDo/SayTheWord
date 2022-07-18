@@ -14,6 +14,7 @@ import com.example.saytheword.databinding.ItemActiveGameCardViewPagerBinding
 import com.example.saytheword.domain.models.Card
 import com.example.saytheword.domain.models.game.GameState
 import com.example.saytheword.domain.models.game.GameTurn
+import com.wajahatkarim3.easyflipview.EasyFlipView
 
 class ActiveGameViewPagerFragment: Fragment() {
 
@@ -28,6 +29,8 @@ class ActiveGameViewPagerFragment: Fragment() {
     val onWordSaidPressed = MutableLiveData<Boolean>()
     val onWordGuessedPressed = MutableLiveData<Boolean>()
     val onNextRoundButtonPressed = MutableLiveData<Boolean>()
+
+    lateinit var flipView: EasyFlipView
 
     var countdownTimer = 3
 
@@ -87,13 +90,34 @@ class ActiveGameViewPagerFragment: Fragment() {
         binding.state = state
         binding.countdown = countdownTimer
 
+        setUpFlipView()
+
         super.onViewCreated(view, savedInstanceState)
+
+    }
+
+    private fun setUpFlipView(){
+
+        flipView = binding.itemActiveGameCardViewPagerResultFlipView
+
+        flipView.isFlipOnceEnabled = false
+
+        flipView.setToHorizontalType()
+
+        flipView.isAutoFlipBack = false
+
+        flipView.setFlipTypeFromRight()
+
+        flipView.flipDuration = 300
 
     }
 
     fun updateState(state: GameState){
 
         this.state = state
+
+        if(state == GameState.RESULT) flipCard()
+
         binding.state = this.state
 
     }
@@ -128,6 +152,12 @@ class ActiveGameViewPagerFragment: Fragment() {
 
     }
 
+    private fun flipCard(){
+
+        flipView.flipTheView()
+
+    }
+
     fun onWordSaidPressed(){
 
         onWordSaidPressed.value = true
@@ -143,6 +173,8 @@ class ActiveGameViewPagerFragment: Fragment() {
     fun onNextRoundButtonPressed(){
 
         onNextRoundButtonPressed.value = true
+
+        flipCard()
 
     }
 
