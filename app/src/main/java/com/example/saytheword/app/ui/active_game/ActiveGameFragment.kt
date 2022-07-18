@@ -1,5 +1,6 @@
 package com.example.saytheword.app.ui.active_game
 
+import android.app.AlertDialog
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.os.Bundle
@@ -24,6 +25,7 @@ import com.example.saytheword.databinding.FragmentActiveGameBinding
 import com.example.saytheword.domain.models.game.Game
 import com.example.saytheword.domain.models.game.GameState
 import com.example.saytheword.domain.models.game.GameTurn
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.progressindicator.LinearProgressIndicator
 
 class ActiveGameFragment: Fragment() {
@@ -310,11 +312,23 @@ class ActiveGameFragment: Fragment() {
 
         viewModel.onPausePressed()
 
+        if(viewModel.gamePaused){
+
+            binding.fragmentActivePauseFab.icon = ContextCompat.getDrawable(binding.fragmentActivePauseFab.context, R.drawable.ic_play_white)
+
+        } else {
+
+            binding.fragmentActivePauseFab.icon = ContextCompat.getDrawable(binding.fragmentActivePauseFab.context, R.drawable.ic_pause_white)
+
+        }
+
     }
 
     fun onQuitButtonPressed(){
 
         viewModel.onQuitPressed()
+
+        showQuitDialog()
 
     }
 
@@ -331,11 +345,40 @@ class ActiveGameFragment: Fragment() {
 
     }
 
+    private fun showQuitDialog(){
+
+        val dialogBuilder = MaterialAlertDialogBuilder(requireContext())
+
+        dialogBuilder.apply {
+
+            setCancelable(false)
+            setTitle("Quit Game")
+            setMessage("Are you sure you want to quit? All progress will be lost.")
+            setPositiveButton("Quit") {dialog, which ->
+
+                navigate(ActiveGameNavOptions.BACK)
+
+            }
+
+            setNegativeButton("Cancel") {dialog, which ->
+
+                dialog.dismiss()
+
+            }
+
+        }
+
+        val dialog = dialogBuilder.create()
+
+        dialog.show()
+
+    }
+
 
     private fun navigate(navOption: ActiveGameNavOptions){
 
         when(navOption){
-            ActiveGameNavOptions.BACK -> TODO()
+            ActiveGameNavOptions.BACK -> activity.viewModel.navigateHome(true)
         }
 
     }
@@ -349,6 +392,11 @@ class ActiveGameFragment: Fragment() {
         super.onDestroyView()
 
     }
+
+
+
+
+
 
 
 

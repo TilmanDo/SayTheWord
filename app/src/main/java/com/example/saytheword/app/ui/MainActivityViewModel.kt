@@ -62,6 +62,19 @@ class MainActivityViewModel : ViewModel() {
 
     }
 
+    fun navigateHome(clearBackStack: Boolean){
+
+        val action = R.id.action_global_homeFragment
+
+        if(clearBackStack) {
+            backStack.clear()
+            backStack.add(R.id.homeFragment)
+        }
+
+        navigationEvent.value = action
+
+    }
+
     /**
      * If the backStack contains only one element there is no backwards navigation possible, so we set [navigationEvent] to -1
      * Otherwise, we use the last two elements and origin/destination, pop the stack and find the fitting navAction, which

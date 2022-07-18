@@ -35,7 +35,7 @@
             app:cardBackgroundColor="@color/background"
             app:cardElevation="0dp"
             app:strokeWidth="1dp"
-            app:strokeColor="@color/white"
+            app:wordTimerStrokeColor="@{game.gameRound.turn}"
             app:cardCornerRadius="@dimen/fragment_active_game_timer_corner_radius"
             android:id="@+id/fragment_active_game_word_timer_cv">
 
@@ -71,7 +71,8 @@
             android:layout_height="0dp"
             app:layout_constraintBottom_toTopOf="@id/fragment_active_game_score_bar_divider"
             app:layout_constraintTop_toBottomOf="@id/fragment_active_game_word_timer_cv"
-            android:layout_marginVertical="@dimen/fragment_active_game_view_pager_margin_vertical"
+            android:layout_marginBottom="@dimen/fragment_active_game_view_pager_margin_bottom"
+            android:layout_marginTop="@dimen/fragment_active_game_view_pager_margin_top"
             android:id="@+id/fragment_active_game_card_vp"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -102,6 +103,7 @@
                 app:strokeWidth="2dp"
                 app:strokeColor="@color/white"
                 app:backgroundTint="@color/background"
+                android:onClick="@{() -> fragment.onPauseButtonPressed()}"
                 android:id="@+id/fragment_active_pause_fab"/>
 
             <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
@@ -117,6 +119,7 @@
                 app:strokeWidth="2dp"
                 app:strokeColor="@color/white"
                 app:backgroundTint="@color/background"
+                android:onClick="@{() -> fragment.onQuitButtonPressed()}"
                 android:id="@+id/fragment_active_quit_fab"/>
 
 

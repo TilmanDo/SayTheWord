@@ -8,19 +8,30 @@ import com.example.saytheword.data.sample_data.SamplePackData
 import com.example.saytheword.domain.models.game.Game
 import com.example.saytheword.domain.models.game.GameScore
 import com.example.saytheword.domain.models.game.GameState
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.*
 
-class ActiveGameViewModel: ViewModel() {
+class ActiveGameViewModel : ViewModel() {
 
-    lateinit var job: Job
+    lateinit var countDownTimer: CountDownTimer
+
+    lateinit var wordTimer: CountDownTimer
+
+    var countDownTimerActive = false
+
+    var wordTimerActive = false
+
+    var pausedCountDownValue = 3
+
+    var pausedWordTimerValue = 10
 
     val activeGameNavOptionSelected = MutableLiveData<ActiveGameNavOptions>()
 
     val game = MutableLiveData<Game>(Game.createNewGame(SamplePackData.packs[0], 10, 5))
 
-    val gameCountDownState = MutableLiveData<Int>()
+    val gameCountDownState = MutableLiveData<Int>(3)
 
-    val wordTimerState = MutableLiveData<Int>()
+    val wordTimerState = MutableLiveData<Int>(120)
 
     val gameState = MutableLiveData<GameState>(GameState.COUNTDOWN)
 
@@ -46,7 +57,7 @@ class ActiveGameViewModel: ViewModel() {
 
         this.game.value = game
 
-        beginCountDownState()
+        beginCountDownState(3000)
 
     }
 
@@ -57,17 +68,25 @@ class ActiveGameViewModel: ViewModel() {
      * Upon finishing the timer, updates the [gameState] which is observed by the fragment and begins the next state.
      *
      */
-    private fun beginCountDownState(){
+    private fun beginCountDownState(timerLength: Long) {
 
-        object : CountDownTimer(3000, 1000){
+        game.value!!.state = GameState.COUNTDOWN
+
+        countDownTimerActive = true
+
+        countDownTimer = object : CountDownTimer(timerLength, 1000) {
 
             override fun onTick(p0: Long) {
-                gameCountDownState.postValue((p0/1000 + 1).toInt())
+                if (!countDownTimerActive) {
+                    cancel()
+                } else {
+                    gameCountDownState.value = (p0 / 1000 + 1).toInt()
+                }
             }
 
             override fun onFinish() {
                 gameState.postValue(GameState.WORD)
-                beginWordState()
+                beginWordState((game.value!!.gameRound.roundLength * 1000).toLong())
             }
 
 
@@ -84,12 +103,23 @@ class ActiveGameViewModel: ViewModel() {
      * Upon finishing the timer, updates the [gameState] which is observed by the fragment and begins the next state.
      *
      */
-    fun beginWordState(){
+    fun beginWordState(timerLength: Long) {
 
-        object : CountDownTimer((game.value!!.gameRound.roundLength * 1000).toLong(), 1000){
+        game.value!!.state = GameState.WORD
+
+        wordTimerActive = true
+
+        wordTimer = object : CountDownTimer(timerLength, 1000) {
 
             override fun onTick(p0: Long) {
-                wordTimerState.postValue((p0/1000 + 1).toInt())
+
+                Log.d("Timer", wordTimerActive.toString())
+
+                if(!wordTimerActive){
+                    cancel()
+                } else {
+                    wordTimerState.value = (p0 / 1000 + 1).toInt()
+                }
             }
 
             override fun onFinish() {
@@ -103,13 +133,13 @@ class ActiveGameViewModel: ViewModel() {
 
     }
 
-    fun beginResultState(){
+    fun beginResultState() {
 
-        //Maybe Flip Logic to come.
+        //There isn't any logic to handle here, I'll leave up the function for the sake of completeness.
 
     }
 
-    fun onWordSaidPressed(){
+    fun onWordSaidPressed() {
 
         Log.d("Results", "Word Said Pressed (VM)")
 
@@ -119,7 +149,7 @@ class ActiveGameViewModel: ViewModel() {
 
     }
 
-    fun onWordGuessedPressed(){
+    fun onWordGuessedPressed() {
 
         Log.d("Results", "Word Guessed Pressed (VM)")
 
@@ -129,17 +159,49 @@ class ActiveGameViewModel: ViewModel() {
 
     }
 
-    fun onPausePressed(){
-
-        //TODO(Implement pause functionality)
+    fun onPausePressed() {
 
         gamePaused = !gamePaused
 
+        if (gamePaused) {
+
+            Log.d("Timer", "Game State: ${game.value!!.state.toString()}")
+
+            when (game.value!!.state) {
+                GameState.COUNTDOWN -> {
+                    countDownTimerActive = false
+                    pausedCountDownValue = gameCountDownState.value!!
+                }
+                GameState.WORD -> {
+                    wordTimerActive = false
+                    pausedWordTimerValue = wordTimerState.value!!
+                    Log.d("Timer", "Setting wordTimerActive to $wordTimerActive")
+                }
+                GameState.RESULT -> {
+                }
+            }
+
+        } else {
+
+            when (game.value!!.state) {
+                GameState.COUNTDOWN -> {
+                    beginCountDownState((pausedCountDownValue * 1000).toLong())
+                }
+                GameState.WORD -> {
+                    beginWordState((pausedWordTimerValue * 1000).toLong())
+                }
+                GameState.RESULT -> {
+                }
+            }
+
+        }
+
+
     }
 
-    fun onQuitPressed(){
+    fun onQuitPressed() {
 
-        //TODO(Implement quit functionality)
+        //Add any logic if necessary.
 
     }
 
@@ -149,7 +211,7 @@ class ActiveGameViewModel: ViewModel() {
      * Also resets the result inputs.
      *
      */
-    fun onNextRoundPressed(){
+    fun onNextRoundPressed() {
 
         val oldGame = game.value!!
 
@@ -162,7 +224,7 @@ class ActiveGameViewModel: ViewModel() {
         roundChange.value = true
 
         gameState.value = GameState.COUNTDOWN
-        beginCountDownState()
+        beginCountDownState(3000)
 
     }
 
@@ -174,22 +236,26 @@ class ActiveGameViewModel: ViewModel() {
      * @param wordGuessed
      * @return
      */
-    private fun calculateScore(oldScore: GameScore, wordSaid: Boolean, wordGuessed: Boolean): GameScore{
+    private fun calculateScore(
+        oldScore: GameScore,
+        wordSaid: Boolean,
+        wordGuessed: Boolean
+    ): GameScore {
 
         val oldScoreRed = oldScore.scoreRed
         val oldScoreBlue = oldScore.scoreBlue
 
-        if((!wordSaid && !wordGuessed) || (wordSaid && wordGuessed)) return oldScore
+        if ((!wordSaid && !wordGuessed) || (wordSaid && wordGuessed)) return oldScore
 
-        if(wordSaid && !wordGuessed) return GameScore(oldScoreRed +1, oldScoreBlue)
+        if (wordSaid && !wordGuessed) return GameScore(oldScoreRed + 1, oldScoreBlue)
 
-        if(!wordSaid && wordGuessed) return GameScore(oldScoreRed, oldScoreBlue + 1)
+        if (!wordSaid && wordGuessed) return GameScore(oldScoreRed, oldScoreBlue + 1)
 
         return oldScore
 
     }
 
-    private fun resetResultInputs(){
+    private fun resetResultInputs() {
 
         wordSaid = false
         wordGuessed = false
