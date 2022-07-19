@@ -159,6 +159,12 @@ class ActiveGameViewModel : ViewModel() {
 
     }
 
+
+    /**
+     * On press of the pause button, inverts the [gamePaused] field and then stops/resumes the necessary countdowns,
+     * depending on [gamePaused]'s new value and the current game-state.
+     *
+     */
     fun onPausePressed() {
 
         gamePaused = !gamePaused
@@ -199,14 +205,19 @@ class ActiveGameViewModel : ViewModel() {
 
     }
 
-    fun onQuitPressed() {
+    fun quitGame(){
 
-        //Add any logic if necessary.
+        countDownTimerActive = false
+        wordTimerActive = false
+
+        Log.d("Quit", "Word Said Array: " + game.value!!.gameRound.wordSaid.toString())
+        Log.d("Quit", "Word Guessed Array: " + game.value!!.gameRound.wordGuessed.toString())
+
 
     }
 
     /**
-     * Updates the game object, including the new score and round number.
+     * Updates the game object, including the new score, round number, and word said/guessed arrayLists.
      * Sets the state back to Countdown and calls [beginCountDownState] to initiate the new round.
      * Also resets the result inputs.
      *
@@ -217,11 +228,15 @@ class ActiveGameViewModel : ViewModel() {
 
         val score = calculateScore(oldGame.score, wordSaid, wordGuessed)
 
+        game.value!!.gameRound.addWordSaidEntry(wordSaid)
+        game.value!!.gameRound.addWordGuessedEntry(wordGuessed)
+
         game.value = oldGame.updateToNextRound(score)
 
         resetResultInputs()
 
         roundChange.value = true
+
 
         gameState.value = GameState.COUNTDOWN
         beginCountDownState(3000)

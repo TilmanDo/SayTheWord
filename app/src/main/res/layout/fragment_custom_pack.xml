@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
     <data>
@@ -20,6 +21,40 @@
         android:layout_height="match_parent"
         android:background="@color/background">
 
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/resolve"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:textSize="25sp"
+                android:textColor="@color/white"
+                android:alpha="0.87"
+                android:layout_marginTop="40dp"
+                android:text="Custom Pack #1"
+                android:id="@+id/fragment_custom_pack_pack_name_tv"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/fragment_custom_pack_pack_name_tv"
+            app:layout_constraintBottom_toBottomOf="@id/fragment_custom_pack_pack_name_tv"
+            app:layout_constraintLeft_toRightOf="@id/fragment_custom_pack_pack_name_tv"
+            app:layout_constraintRight_toRightOf="parent"
+            android:src="@drawable/ic_edit_white"
+            android:id="@+id/fragment_custom_pack_pack_name_edit_iv"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/fragment_custom_pack_pack_name_tv"
+            app:layout_constraintBottom_toBottomOf="@id/fragment_custom_pack_pack_name_tv"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/fragment_custom_pack_pack_name_tv"
+            android:src="@drawable/ic_arrow_back_white"
+            android:id="@+id/fragment_custom_pack_back_arrow_iv"/>
 
 
 

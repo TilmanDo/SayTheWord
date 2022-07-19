@@ -44,6 +44,9 @@
         <action
             android:id="@+id/action_packSelectFragment_to_newGameSettingsFragment"
             app:destination="@id/newGameSettingsFragment" />
+        <action
+            android:id="@+id/action_packSelectFragment_to_customPackFragment"
+            app:destination="@id/customPackFragment" />
     </fragment>
     <fragment
         android:id="@+id/newGameSettingsFragment"
@@ -67,4 +70,12 @@
     <action
         android:id="@+id/action_global_homeFragment"
         app:destination="@id/homeFragment"/>
+    <fragment
+        android:id="@+id/customPackFragment"
+        android:name="com.example.saytheword.app.ui.pack_select.custom_packs.CustomPackFragment"
+        android:label="CustomPackFragment" >
+        <action
+            android:id="@+id/action_customPackFragment_to_packSelectFragment"
+            app:destination="@id/packSelectFragment" />
+    </fragment>
 </navigation>

@@ -10,6 +10,8 @@ import com.example.saytheword.domain.models.game.Game
 
 class MainActivityViewModel : ViewModel() {
 
+    var currentViewPagerPosition = 0
+
     //Game Handling
     val gameSetUp = Game.createNewGame(SamplePackData.packs[0], 10, 5)
 
@@ -28,6 +30,13 @@ class MainActivityViewModel : ViewModel() {
     fun setGamePointsToWin(pointsToWin: Int){
 
         gameSetUp.pointsToWin = pointsToWin
+
+    }
+
+    //Pack Select
+    fun updateViewPagerPosition(position: Int){
+
+        currentViewPagerPosition = position
 
     }
 
@@ -66,12 +75,10 @@ class MainActivityViewModel : ViewModel() {
 
         val action = R.id.action_global_homeFragment
 
-        if(clearBackStack) {
-            backStack.clear()
-            backStack.add(R.id.homeFragment)
-        }
+        if(clearBackStack) backStack.clear()
 
         navigationEvent.value = action
+        backStack.add(R.id.homeFragment)
 
     }
 

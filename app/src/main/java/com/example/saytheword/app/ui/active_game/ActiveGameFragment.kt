@@ -101,10 +101,8 @@ class ActiveGameFragment: Fragment() {
     }
 
     /**
-     * Delegates updates in the game to the corresponding functions.
      *
-     * Includes the game object itself, the game state, the state of the countdown timer, the state of the word timer,
-     * and the event of selecting/deselecting a result input.
+     * Delegates updates in the game to the corresponding functions.
      *
      */
     private fun observeViewModel(){
@@ -271,6 +269,12 @@ class ActiveGameFragment: Fragment() {
 
     }
 
+    /**
+     * Tells the viewPagerAdapter that the state of the result input buttons have changed.
+     *
+     * @param button 0 -> WordSaid, 1 -> WordGuessed
+     * @param selected
+     */
     private fun updateResultInputState(button: Int, selected: Boolean){
 
         adapter.updateCardResultInputState(button, selected, game.gameRound.roundNumber)
@@ -326,12 +330,14 @@ class ActiveGameFragment: Fragment() {
 
     fun onQuitButtonPressed(){
 
-        viewModel.onQuitPressed()
-
         showQuitDialog()
 
     }
 
+    /**
+     * Programmatically moves the viewPager to the next position and sets the correct color for the progress bar.
+     *
+     */
     private fun swipeToNextRound(){
 
         viewPager.currentItem = viewPager.currentItem + 1
@@ -345,6 +351,10 @@ class ActiveGameFragment: Fragment() {
 
     }
 
+    /**
+     * Shows the dialog containing a negative button (simply cancels the dialog) and a positive button (calls [quitGame])
+     *
+     */
     private fun showQuitDialog(){
 
         val dialogBuilder = MaterialAlertDialogBuilder(requireContext())
@@ -356,7 +366,7 @@ class ActiveGameFragment: Fragment() {
             setMessage("Are you sure you want to quit? All progress will be lost.")
             setPositiveButton("Quit") {dialog, which ->
 
-                navigate(ActiveGameNavOptions.BACK)
+                quitGame()
 
             }
 
@@ -371,6 +381,13 @@ class ActiveGameFragment: Fragment() {
         val dialog = dialogBuilder.create()
 
         dialog.show()
+
+    }
+
+    private fun quitGame(){
+
+        viewModel.quitGame()
+        navigate(ActiveGameNavOptions.BACK)
 
     }
 

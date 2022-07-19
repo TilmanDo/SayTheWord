@@ -1,6 +1,7 @@
 package com.example.saytheword.app.ui.pack_select
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,6 +25,10 @@ class PackSelectFragment: Fragment() {
     lateinit var binding: FragmentPackSelectBinding
 
     lateinit var navController: NavController
+
+    lateinit var activity: MainActivity
+
+    lateinit var viewPager: ViewPager2
 
     private val viewModel: PackSelectViewModel by viewModels()
 
@@ -50,11 +55,21 @@ class PackSelectFragment: Fragment() {
      */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+        Log.d("Lifecycle", "PackSelect onViewCreated() called")
+
         navController = Navigation.findNavController(view)
+
+        activity = requireActivity() as MainActivity
 
         observeViewModel()
 
         setUpViewPager()
+
+        val currentVpPosition = activity.viewModel.currentViewPagerPosition
+
+        Log.d("Lifecycle", currentVpPosition.toString())
+
+        viewPager.setCurrentItem(currentVpPosition, false)
 
         super.onViewCreated(view, savedInstanceState)
     }
@@ -89,7 +104,7 @@ class PackSelectFragment: Fragment() {
     private fun setUpViewPager(){
 
 
-        val viewPager = binding.fragmentPackSelectVp
+        viewPager = binding.fragmentPackSelectVp
 
         val adapter = PackSelectViewPagerAdapter(this)
 
@@ -100,6 +115,7 @@ class PackSelectFragment: Fragment() {
             clipToPadding = false
             clipChildren = false
             offscreenPageLimit = 2
+
 
             val offsetPx = 30.toPx()
 
@@ -113,7 +129,9 @@ class PackSelectFragment: Fragment() {
 
             override fun onPageSelected(position: Int) {
 
-                viewModel.setSelectedPack(SamplePackData.packs[position])
+                activity.viewModel.updateViewPagerPosition(position)
+
+                if(position != SamplePackData.packs.size)viewModel.setSelectedPack(SamplePackData.packs[position])
 
                 super.onPageSelected(position)
             }
@@ -160,6 +178,7 @@ class PackSelectFragment: Fragment() {
 
             }
             PackSelectNavOptions.BACK -> activity.viewModel.navigateBackwards()
+            PackSelectNavOptions.ADD_CUSTOM_PACK -> activity.viewModel.navigateForwards(R.id.customPackFragment)
         }
 
     }

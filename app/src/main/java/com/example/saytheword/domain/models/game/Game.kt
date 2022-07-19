@@ -17,7 +17,7 @@ data class Game(var pack: Pack, val gameRound: GameRound, var state: GameState, 
 
         newGame.score = score
 
-        newGame.gameRound.roundNumber++
+        newGame.gameRound.startRound()
 
         if(this.gameRound.turn == GameTurn.RED) {
             newGame.gameRound.turn = GameTurn.BLUE

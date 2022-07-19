@@ -13,6 +13,7 @@ class PackSelectViewModel: ViewModel() {
 
     var currentlySelectedPack : Pack = SamplePackData.packs[0]
 
+
     fun onBackArrowPressed(){
 
         packSelectNavOptionSelected.value = PackSelectNavOptions.BACK
@@ -36,5 +37,7 @@ class PackSelectViewModel: ViewModel() {
         nextButtonStateChanged.value = currentlySelectedPack.unlocked
 
     }
+
+
 
 }

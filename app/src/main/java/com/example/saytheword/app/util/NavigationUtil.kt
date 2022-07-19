@@ -15,7 +15,9 @@ object NavigationUtil {
         Pair(R.id.packSelectFragment, R.id.newGameSettingsFragment) to R.id.action_packSelectFragment_to_newGameSettingsFragment,
         Pair(R.id.newGameSettingsFragment, R.id.packSelectFragment) to R.id.action_newGameSettingsFragment_to_packSelectFragment,
         Pair(R.id.newGameSettingsFragment, R.id.activeGameFragment) to R.id.action_newGameSettingsFragment_to_activeGameFragment,
-        Pair(R.id.activeGameFragment, R.id.newGameSettingsFragment) to R.id.action_activeGameFragment_to_newGameSettingsFragment
+        Pair(R.id.activeGameFragment, R.id.newGameSettingsFragment) to R.id.action_activeGameFragment_to_newGameSettingsFragment,
+        Pair(R.id.packSelectFragment, R.id.customPackFragment) to R.id.action_packSelectFragment_to_customPackFragment,
+        Pair(R.id.customPackFragment, R.id.packSelectFragment) to R.id.action_customPackFragment_to_packSelectFragment
 
     )
 
