@@ -12,11 +12,7 @@ data class Pack(val name: String, var cards: ArrayList<Card>, val color: Int, va
 
     fun shuffleCards(){
 
-        val shuffledList = cards.toMutableList()
-
-        shuffledList.shuffle()
-
-        cards = shuffledList as ArrayList<Card>
+        cards.shuffle()
 
     }
 
