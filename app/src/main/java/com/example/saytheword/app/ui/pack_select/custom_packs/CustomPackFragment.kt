@@ -1,10 +1,13 @@
 package com.example.saytheword.app.ui.pack_select.custom_packs
 
+import android.app.Activity
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -12,6 +15,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.saytheword.R
+import com.example.saytheword.app.ui.MainActivity
 import com.example.saytheword.app.ui.pack_select.custom_packs.adapters.CustomPackRecyclerViewAdapter
 import com.example.saytheword.data.sample_data.SamplePackData
 import com.example.saytheword.databinding.FragmentCustomPackBinding
@@ -19,6 +23,8 @@ import com.example.saytheword.domain.models.Card
 import com.example.saytheword.domain.models.Pack
 
 class CustomPackFragment: Fragment() {
+
+    lateinit var activity: MainActivity
 
     lateinit var binding: FragmentCustomPackBinding
 
@@ -49,6 +55,10 @@ class CustomPackFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+        activity = requireActivity() as MainActivity
+
+        setUpEditText()
+
         setUpRecyclerViews()
 
         observeAdapters()
@@ -56,6 +66,13 @@ class CustomPackFragment: Fragment() {
         observeViewModel()
 
         super.onViewCreated(view, savedInstanceState)
+    }
+
+    private fun setUpEditText(){
+
+        binding.fragmentCustomPackPackNameEt.isEnabled = false
+        binding.fragmentCustomPackPackNameEt.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.transparent)
+
     }
 
     private fun setUpRecyclerViews(){
@@ -129,6 +146,14 @@ class CustomPackFragment: Fragment() {
 
         viewModel.customPackNavOptionSelected.observe(viewLifecycleOwner, onCustomPackNavOptionSelectedObserver)
 
+        val onEditingStatusChangedObserver = Observer<Boolean>{
+
+            onEditingStatusChanged(it)
+
+        }
+
+        viewModel.editButtonPressed.observe(viewLifecycleOwner, onEditingStatusChangedObserver)
+
         val onCardSelectionStatusChangedObserver = Observer<Pair<Pack, Card>> {
 
             onCardSelectionStatusChanged(it.first, it.second)
@@ -182,11 +207,39 @@ class CustomPackFragment: Fragment() {
 
     }
 
+    private fun onEditingStatusChanged(editing: Boolean){
+
+        val editText = binding.fragmentCustomPackPackNameEt
+        val button = binding.fragmentCustomPackPackNameEditIv
+
+        if(editing){
+
+            editText.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.colorMain)
+            button.setImageResource(R.drawable.ic_check_white)
+            editText.isEnabled = true
+
+            editText.requestFocus()
+
+            val imm: InputMethodManager =
+                requireContext().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.showSoftInput(editText, 0)
+
+        } else {
+
+            binding.fragmentCustomPackPackNameEt.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.transparent)
+            binding.fragmentCustomPackPackNameEditIv.setImageResource(R.drawable.ic_edit_white)
+            binding.fragmentCustomPackPackNameEt.isEnabled = false
+
+        }
+
+    }
+
 
     private fun navigate(navOption: CustomPackNavOptions){
 
         when(navOption){
-            CustomPackNavOptions.BACK -> TODO()
+            CustomPackNavOptions.BACK -> activity.viewModel.navigateBackwards()
+            CustomPackNavOptions.SAVE -> TODO()
         }
 
     }

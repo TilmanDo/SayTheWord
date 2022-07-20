@@ -11,6 +11,10 @@ class CustomPackViewModel: ViewModel() {
 
     val customPackNavOptionSelected = MutableLiveData<CustomPackNavOptions>()
 
+    var editing = false
+
+    val editButtonPressed = MutableLiveData<Boolean>()
+
     val numberOfCardsSelected = MutableLiveData<Int>(0)
 
     private val cards = createNewCardsList()
@@ -37,6 +41,14 @@ class CustomPackViewModel: ViewModel() {
     fun onBackArrowPressed(){
 
         customPackNavOptionSelected.value = CustomPackNavOptions.BACK
+
+    }
+
+    fun onEditButtonPressed(){
+
+        editing = !editing
+
+        editButtonPressed.value = editing
 
     }
 
