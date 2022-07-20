@@ -22,9 +22,12 @@ class CustomPackViewModel: ViewModel() {
     val cardSelectionStatusChanged = MutableLiveData<Pair<Pack, Card>>()
 
 
-
-
-
+    /**
+     * Inverts the selected field of the card, updates the number of selected cards and the MutableLiveData which the fragment observers.
+     *
+     * @param pack The pack to which the card belongs.
+     * @param card The card which has been clicked and whose status needs to be updated.
+     */
     fun cardSelectionStatusChanged(pack: Pack, card: Card){
 
         val position = findCardPosition(card)
@@ -58,21 +61,12 @@ class CustomPackViewModel: ViewModel() {
 
     }
 
-    private fun createNewCardsList(): ArrayList<Card>{
-
-        val list = ArrayList<Card>()
-
-        for(pack in SamplePackData.packs){
-
-            for(card in pack.cards) {
-                list.add(card)
-            }
-
-        }
-
-        return list
-    }
-
+    /**
+     * Finds the position of a card in the viewmodel's list of cards.
+     *
+     * @param card
+     * @return
+     */
     private fun findCardPosition(card: Card): Int{
 
         cards.forEachIndexed{ index, listCard ->
@@ -83,6 +77,7 @@ class CustomPackViewModel: ViewModel() {
 
         return 0
     }
+
 
     private fun getNumberOfSelectedCards(): Int{
 
@@ -96,6 +91,26 @@ class CustomPackViewModel: ViewModel() {
 
         return result
 
+    }
+
+    /**
+     * Creates a list containing all cards from all packs.
+     *
+     * @return
+     */
+    private fun createNewCardsList(): ArrayList<Card>{
+
+        val list = ArrayList<Card>()
+
+        for(pack in SamplePackData.packs){
+
+            for(card in pack.cards) {
+                list.add(card)
+            }
+
+        }
+
+        return list
     }
 
 

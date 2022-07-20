@@ -173,12 +173,24 @@ class CustomPackFragment: Fragment() {
     }
 
 
+    /**
+     * Pass the onClick event of a card to the viewModel and tell it to update the card's selected status.
+     *
+     * @param pack
+     * @param card
+     */
     private fun onCardClicked(pack: Pack, card: Card){
 
         viewModel.cardSelectionStatusChanged(pack, card)
 
     }
 
+    /**
+     * Called when the viewModel has executed all logic - updates the fitting adapter with the new card object.
+     *
+     * @param pack
+     * @param card
+     */
     private fun onCardSelectionStatusChanged(pack: Pack, card: Card){
 
         when(pack.name){
@@ -201,12 +213,22 @@ class CustomPackFragment: Fragment() {
 
     }
 
+    /**
+     * Updates the NumCards TextView with the new number of selected cards.
+     *
+     * @param numCards
+     */
     private fun onNumberOfCardsSelectedChanged(numCards: Int){
 
         binding.fragmentCustomPackNumCardsTv.text = "$numCards Cards"
 
     }
 
+    /**
+     * When the edit button has been clicked this function updates the look and status of both the EditText and ImageView.
+     *
+     * @param editing
+     */
     private fun onEditingStatusChanged(editing: Boolean){
 
         val editText = binding.fragmentCustomPackPackNameEt
