@@ -12,7 +12,7 @@ object SamplePackData {
             arrayListOf(Card("Prisoner"), Card("Moon"), Card("Champagne"), Card("Shelter")),
             R.color.colorMain,
             true
-        ), Pack("Dirty", arrayListOf(), R.color.colorAccent, false),
-        Pack("Sport", arrayListOf(), R.color.colorAccent, false)
+        ), Pack("Dirty", arrayListOf(Card("Dildo"), Card("Playboy"), Card("Cum"), Card("Anal")), R.color.colorAccent, false),
+        Pack("Sport", arrayListOf(Card("Lacrosse"), Card("Federer"), Card("Homerun"), Card("Crossbar")), R.color.colorAccent, false)
     )
 }

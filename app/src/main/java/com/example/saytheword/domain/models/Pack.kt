@@ -7,7 +7,7 @@ import androidx.databinding.BindingAdapter
 import com.example.saytheword.R
 import com.google.android.material.card.MaterialCardView
 
-data class Pack(val name: String, var cards: ArrayList<Card>, val color: Int, val unlocked: Boolean) {
+data class Pack(val name: String, var cards: ArrayList<Card>, val color: Int, val unlocked: Boolean, val isCustom: Boolean = false) {
 
 
     fun shuffleCards(){
@@ -30,6 +30,14 @@ data class Pack(val name: String, var cards: ArrayList<Card>, val color: Int, va
         fun setCardBackGroundColor(cardView: MaterialCardView, color: Int){
 
             cardView.setCardBackgroundColor(ContextCompat.getColor(cardView.context, color))
+
+        }
+
+        @JvmStatic
+        @BindingAdapter("app:cardStrokeColor")
+        fun setCardStrokeColor(cardView: MaterialCardView, color: Int){
+
+            cardView.strokeColor = ContextCompat.getColor(cardView.context, color)
 
         }
 

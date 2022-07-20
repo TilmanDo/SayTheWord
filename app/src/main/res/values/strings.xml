@@ -10,4 +10,5 @@
     <string name="fragment_pack_select_pick_prompt">Pick a pack:</string>
     <string name="fragment_new_game_settings_start_game_button">START GAME</string>
     <string name="fragment_pack_select_next_button">NEXT</string>
+    <string name="fragment_custom_pack_save_button_text">SAVE</string>
 </resources>
