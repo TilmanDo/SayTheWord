@@ -77,8 +77,6 @@ class ActiveGameFragment: Fragment() {
 
         activity = requireActivity() as MainActivity
 
-
-
         setUpProgressBar()
 
         observeViewModel()
@@ -93,7 +91,6 @@ class ActiveGameFragment: Fragment() {
 
         binding.game = game
 
-        Log.d("Pack", "Current cards: " + game.pack.cards.toString())
 
         setUpViewPager()
 

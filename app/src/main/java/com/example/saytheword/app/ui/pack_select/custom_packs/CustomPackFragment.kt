@@ -270,6 +270,8 @@ class CustomPackFragment: Fragment() {
                 isCustom = true
             ))
 
+            activity.viewModel.updateViewPagerPosition(0)
+
             navigate(CustomPackNavOptions.BACK)
 
         } else {
