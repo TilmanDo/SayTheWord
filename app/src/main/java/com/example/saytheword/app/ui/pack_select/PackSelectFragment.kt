@@ -67,6 +67,8 @@ class PackSelectFragment: Fragment() {
 
         val currentVpPosition = activity.viewModel.currentViewPagerPosition
 
+        if(SamplePackData.packs[currentVpPosition].isCustom) viewModel.setSelectedPack(SamplePackData.packs[currentVpPosition])
+
         Log.d("Lifecycle", currentVpPosition.toString())
 
         viewPager.setCurrentItem(currentVpPosition, false)
@@ -171,6 +173,8 @@ class PackSelectFragment: Fragment() {
 
         when(navOption){
             PackSelectNavOptions.NEXT -> {
+
+                Log.d("Pack", viewModel.currentlySelectedPack.cards.toString())
 
                 activity.viewModel.setGamePack(viewModel.currentlySelectedPack)
 

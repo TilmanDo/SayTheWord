@@ -77,7 +77,7 @@ class ActiveGameFragment: Fragment() {
 
         activity = requireActivity() as MainActivity
 
-        setUpViewPager()
+
 
         setUpProgressBar()
 
@@ -90,12 +90,14 @@ class ActiveGameFragment: Fragment() {
 
         game = viewModel.game.value!!
 
+
         binding.game = game
 
+        Log.d("Pack", "Current cards: " + game.pack.cards.toString())
+
+        setUpViewPager()
+
         updateGameState(game.state)
-
-        Log.d("Cards", game.pack.cards.toString())
-
 
         super.onViewCreated(view, savedInstanceState)
     }
@@ -188,6 +190,8 @@ class ActiveGameFragment: Fragment() {
      * @param state
      */
     private fun updateGameState(state: GameState){
+
+        Log.d("State", state.toString())
 
         adapter.updateGameState(state, game.gameRound.roundNumber)
 

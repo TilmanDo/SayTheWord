@@ -21,6 +21,7 @@ import com.example.saytheword.data.sample_data.SamplePackData
 import com.example.saytheword.databinding.FragmentCustomPackBinding
 import com.example.saytheword.domain.models.Card
 import com.example.saytheword.domain.models.Pack
+import com.google.android.material.snackbar.Snackbar
 
 class CustomPackFragment: Fragment() {
 
@@ -256,12 +257,40 @@ class CustomPackFragment: Fragment() {
 
     }
 
+    private fun handleSaveButtonPress(minCardsReached: Boolean){
+
+        if(minCardsReached){
+
+            val cards = viewModel.getSelectedCards()
+
+            val packTitle = binding.fragmentCustomPackPackNameEt.text.toString()
+
+            SamplePackData.packs.add(Pack(packTitle, cards, R.color.customPack,
+                unlocked = true,
+                isCustom = true
+            ))
+
+            navigate(CustomPackNavOptions.BACK)
+
+        } else {
+
+            val snackBar = Snackbar.make(binding.root, "Please select at least 4 cards", Snackbar.LENGTH_SHORT)
+
+            snackBar.setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.colorAccent))
+            snackBar.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+
+            snackBar.show()
+
+        }
+
+    }
+
 
     private fun navigate(navOption: CustomPackNavOptions){
 
         when(navOption){
             CustomPackNavOptions.BACK -> activity.viewModel.navigateBackwards()
-            CustomPackNavOptions.SAVE -> TODO()
+            CustomPackNavOptions.SAVE -> handleSaveButtonPress(viewModel.getNumberOfSelectedCards() >= viewModel.MIN_CARDS)
         }
 
     }

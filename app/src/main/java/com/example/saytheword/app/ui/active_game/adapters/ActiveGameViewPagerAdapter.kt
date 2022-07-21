@@ -10,7 +10,7 @@ import com.example.saytheword.domain.models.game.GameTurn
 
 class ActiveGameViewPagerAdapter(val fragment: ActiveGameFragment, val cards: ArrayList<Card>): FragmentStateAdapter(fragment) {
 
-    val cardFragments = ArrayList<ActiveGameViewPagerFragment>()
+    private val cardFragments = ArrayList<ActiveGameViewPagerFragment>()
 
     override fun getItemCount(): Int {
         return cards.size

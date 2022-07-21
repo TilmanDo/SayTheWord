@@ -9,6 +9,8 @@ import com.example.saytheword.domain.models.Pack
 
 class CustomPackViewModel: ViewModel() {
 
+    val MIN_CARDS = 4
+
     val customPackNavOptionSelected = MutableLiveData<CustomPackNavOptions>()
 
     var editing = false
@@ -57,7 +59,7 @@ class CustomPackViewModel: ViewModel() {
 
     fun onSaveButtonPressed(){
 
-
+        customPackNavOptionSelected.value = CustomPackNavOptions.SAVE
 
     }
 
@@ -79,7 +81,7 @@ class CustomPackViewModel: ViewModel() {
     }
 
 
-    private fun getNumberOfSelectedCards(): Int{
+    fun getNumberOfSelectedCards(): Int{
 
         var result = 0
 
@@ -90,6 +92,16 @@ class CustomPackViewModel: ViewModel() {
         }
 
         return result
+
+    }
+
+    fun getSelectedCards(): ArrayList<Card>{
+
+        val list = ArrayList<Card>()
+
+        for(card in cards) if(card.customPackIsSelected) list.add(card)
+
+        return list
 
     }
 
